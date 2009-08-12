@@ -62,6 +62,28 @@ module GitCommands
     run "git checkout #{branch}"
   end
  
+  def self.tag(dst_branch, tag, msg="")
+    raise "origin/#{dst_branch} branch does not exist" unless remote_branch_exists?("origin/#{dst_branch}")
+    ensure_clean_working_directory!
+    begin
+      run "git fetch"
+      run "git tag -a #{tag} -m '#{msg}' #{dst_branch}"
+      run "git push --tags"
+    rescue
+      puts "Tagging #{dst_branch} with #{tag} failed!"
+      raise
+    end
+  end
+
+  def self.latest_tag(dst_branch)
+    run "git fetch --tags"
+    begin
+      run "git describe #{dst_branch}"
+    rescue
+      puts "There are no tags on #{dst_branch}"
+    end
+  end
+
   def self.pull_template
     ensure_clean_working_directory!
     run "git pull git://github.com/thoughtbot/suspenders.git master"
@@ -106,4 +128,30 @@ namespace :git do
       GitCommands.branch_production(branch)
     end
   end
+
+
+  namespace :tag do
+    desc "Tags the production branch (you will be prompted for a tag and message)"
+    task :production do
+      puts "The latest tag in production is..."
+      GitCommands.latest_tag "production"
+      
+      print "Specify a new tag (can't start with a number or have spaces, i.e. v0.17.1) : "
+      tag = STDIN.gets.strip
+      
+      print "Enter a description (optional) : "
+      msg = STDIN.gets.strip
+      msg = "Tagging release #{tag}" if msg.blank?
+
+      GitCommands.tag "production", tag, msg
+    end
+
+    namespace :production do
+      desc "get the latest tag in production"
+      task :latest do
+        GitCommands.latest_tag "production"
+      end
+    end
+  end
+
 end
