@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "limerick_rake"
-  s.version = "0.0.2"
-  s.date = "2008-10-07"
+  s.version = "0.0.2b1"
+  s.date = "2009-08-12"
   s.summary = "A collection of useful rake tasks."
   s.email = "support@thoughtbot.com"
   s.homepage = "http://github.com/thoughtbot/limerick_rake"
