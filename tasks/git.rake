@@ -129,7 +129,6 @@ namespace :git do
     end
   end
 
-
   namespace :tag do
     desc "Tags the production branch (you will be prompted for a tag and message)"
     task :production do
@@ -153,5 +152,4 @@ namespace :git do
       end
     end
   end
-
 end
