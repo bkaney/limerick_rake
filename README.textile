@@ -5,7 +5,7 @@ A collection of useful rake tasks.
 
 To use in a Rails app:
 
-  script/plugin install git://github.com/thoughtbot/limerick_rake.git
+  script/plugin install git://github.com/bkaney/limerick_rake.git
 
 h2. Database
 
