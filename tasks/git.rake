@@ -66,7 +66,7 @@ module GitCommands
     raise "origin/#{dst_branch} branch does not exist" unless remote_branch_exists?("origin/#{dst_branch}")
     ensure_clean_working_directory!
     begin
-      run "git fetch"
+      run "git fetch origin #{dst_branch}:#{dst_branch}"
       run "git tag -a #{tag} -m '#{msg}' #{dst_branch}"
       run "git push --tags"
     rescue
